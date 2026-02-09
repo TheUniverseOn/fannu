@@ -89,3 +89,13 @@ export function formatRelativeTime(date: Date | string): string {
   if (diffDay < 7) return `${diffDay}d ago`
   return formatDate(d)
 }
+
+// Generate a nanoid-like random string
+export function nanoid(length = 21): string {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+  let result = ''
+  for (let i = 0; i < length; i++) {
+    result += chars[Math.floor(Math.random() * chars.length)]
+  }
+  return result
+}
