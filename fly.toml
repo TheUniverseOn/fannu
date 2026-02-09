@@ -1,0 +1,32 @@
+# Fly.io configuration for FanNu
+# See https://fly.io/docs/reference/configuration/ for more info
+
+app = "fannu"
+primary_region = "jnb"  # Johannesburg, South Africa - closest to Ethiopia
+
+[build]
+
+[env]
+  NODE_ENV = "production"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["app"]
+
+[[vm]]
+  memory = "1gb"
+  cpu_kind = "shared"
+  cpus = 1
+
+[checks]
+  [checks.health]
+    type = "http"
+    port = 3000
+    path = "/api/health"
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "10s"

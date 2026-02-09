@@ -1,0 +1,284 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* FanNu Dark Theme - Default */
+    --background: 230 33% 6%;
+    --foreground: 240 6% 96%;
+
+    --card: 232 28% 14%;
+    --card-foreground: 240 6% 96%;
+
+    --popover: 234 25% 20%;
+    --popover-foreground: 240 6% 96%;
+
+    --primary: 262 83% 58%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 232 28% 14%;
+    --secondary-foreground: 240 6% 96%;
+
+    --muted: 234 25% 20%;
+    --muted-foreground: 220 9% 46%;
+
+    --accent: 262 83% 58%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 236 24% 25%;
+    --input: 232 28% 14%;
+    --ring: 262 83% 58%;
+
+    --radius: 0.75rem;
+
+    /* FanNu Custom Colors */
+    --fannu-purple: 262 83% 58%;
+    --fannu-purple-hover: 263 70% 50%;
+    --fannu-pink: 330 81% 60%;
+    --fannu-teal: 172 66% 40%;
+    --fannu-gold: 43 96% 56%;
+    --fannu-blue: 217 91% 60%;
+
+    /* Status Colors */
+    --success: 160 84% 39%;
+    --success-soft: 160 84% 39% / 0.13;
+    --warning: 43 96% 56%;
+    --warning-soft: 43 96% 56% / 0.13;
+    --error: 0 84% 60%;
+    --error-soft: 0 84% 60% / 0.13;
+    --info: 217 91% 60%;
+    --info-soft: 217 91% 60% / 0.13;
+
+    /* Surface Colors */
+    --surface-page: 230 33% 6%;
+    --surface-card: 232 28% 14%;
+    --surface-elevated: 234 25% 20%;
+    --surface-overlay: 0 0% 0% / 0.8;
+
+    /* Text Colors */
+    --text-primary: 240 6% 96%;
+    --text-secondary: 220 9% 64%;
+    --text-muted: 220 9% 46%;
+  }
+
+  /* Light theme for admin/settings if needed */
+  .light {
+    --background: 40 20% 97%;
+    --foreground: 30 6% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 30 6% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 30 6% 10%;
+
+    --primary: 177 80% 26%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 40 16% 92%;
+    --secondary-foreground: 30 6% 10%;
+
+    --muted: 40 16% 92%;
+    --muted-foreground: 30 3% 42%;
+
+    --accent: 42 65% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 4 72% 46%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 40 9% 88%;
+    --input: 40 9% 88%;
+    --ring: 177 80% 26%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar for dark theme */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--surface-card));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground));
+  }
+}
+
+@layer components {
+  /* FanNu Gradient Buttons */
+  .btn-gradient-primary {
+    @apply relative overflow-hidden font-semibold text-white transition-all;
+    background: linear-gradient(90deg, hsl(262 83% 58%) 0%, hsl(330 81% 60%) 100%);
+  }
+
+  .btn-gradient-primary:hover {
+    background: linear-gradient(90deg, hsl(263 70% 50%) 0%, hsl(330 81% 55%) 100%);
+  }
+
+  /* FanNu Cards */
+  .card-fannu {
+    @apply rounded-3xl border border-border bg-card;
+  }
+
+  /* FanNu Badge base */
+  .badge-fannu {
+    @apply inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold;
+  }
+
+  /* Status badge variants */
+  .badge-success {
+    @apply badge-fannu;
+    background: hsl(var(--success-soft));
+    color: hsl(var(--success));
+  }
+
+  .badge-warning {
+    @apply badge-fannu;
+    background: hsl(var(--warning-soft));
+    color: hsl(var(--warning));
+  }
+
+  .badge-error {
+    @apply badge-fannu;
+    background: hsl(var(--error-soft));
+    color: hsl(var(--error));
+  }
+
+  .badge-info {
+    @apply badge-fannu;
+    background: hsl(var(--info-soft));
+    color: hsl(var(--info));
+  }
+
+  /* Gradient text */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(90deg, hsl(262 83% 58%) 0%, hsl(330 81% 60%) 100%);
+  }
+
+  /* Gradient border */
+  .border-gradient {
+    position: relative;
+  }
+
+  .border-gradient::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, hsl(262 83% 58%) 0%, hsl(330 81% 60%) 50%, hsl(217 91% 60%) 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  /* Glow effects */
+  .glow-purple {
+    box-shadow: 0 0 40px hsl(262 83% 58% / 0.3);
+  }
+
+  .glow-pink {
+    box-shadow: 0 0 40px hsl(330 81% 60% / 0.3);
+  }
+}
+
+@layer utilities {
+  /* Animation utilities */
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Safe area utilities for mobile */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+
+  .pt-safe {
+    padding-top: env(safe-area-inset-top, 0);
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* ============================================
+   RESPONSIVE APP SHELL
+   Mobile-first with centered desktop layout
+   ============================================ */
+
+/* App container - full width responsive */
+.app-shell {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* Print styles for receipts */
+@media print {
+  @page {
+    size: auto;
+    margin: 20mm;
+  }
+
+  body {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
