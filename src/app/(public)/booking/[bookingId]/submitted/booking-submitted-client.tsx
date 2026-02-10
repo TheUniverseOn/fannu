@@ -221,9 +221,16 @@ export function BookingSubmittedClient({ booking, creator }: BookingSubmittedCli
             </div>
           )}
 
+          {/* Track Booking */}
+          <Link href={`/track/${booking.reference_code}`} className="block">
+            <Button variant="outline" className="w-full" size="lg">
+              Track Booking Status
+            </Button>
+          </Link>
+
           {/* Back to Profile */}
           <Link href={`/c/${creator.slug}`} className="block">
-            <Button variant="outline" className="w-full" size="lg">
+            <Button variant="ghost" className="w-full" size="lg">
               Back to {creator.display_name}&apos;s Profile
             </Button>
           </Link>
