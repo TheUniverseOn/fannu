@@ -21,6 +21,23 @@ export async function getVipsByCreatorId(creatorId: string): Promise<VipSubscrip
   return (data ?? []) as VipSubscription[];
 }
 
+export async function getAllVipsByCreatorId(creatorId: string): Promise<VipSubscription[]> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("vip_subscriptions")
+    .select("*")
+    .eq("creator_id", creatorId)
+    .order("joined_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching all VIPs:", error);
+    return [];
+  }
+
+  return (data ?? []) as VipSubscription[];
+}
+
 export async function getVipCount(creatorId: string): Promise<number> {
   const supabase = await createClient();
 
