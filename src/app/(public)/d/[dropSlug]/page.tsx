@@ -169,6 +169,7 @@ export default async function DropPage({ params }: DropPageProps) {
           <VipCaptureForm
             creatorName={creator.display_name}
             creatorId={creator.id}
+            creatorSlug={creator.slug}
             dropId={drop.id}
             source="DROP_PAGE"
           />

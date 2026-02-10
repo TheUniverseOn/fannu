@@ -116,6 +116,7 @@ export default async function CreatorPage({ params }: CreatorPageProps) {
           <VipCaptureForm
             creatorName={creator.display_name}
             creatorId={creator.id}
+            creatorSlug={creator.slug}
             source="CREATOR_PROFILE"
           />
         </section>

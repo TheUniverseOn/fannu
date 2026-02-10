@@ -1,11 +1,16 @@
 "use server";
 
 import { createClient } from "@/lib/supabase/server";
-import type { TablesInsert } from "@/types/database";
+import type { Tables, TablesInsert } from "@/types/database";
+import { nanoid } from "@/lib/utils";
+
+type SubscribeResult =
+  | { success: true; confirmationId: string; alreadySubscribed?: boolean; resubscribed?: boolean }
+  | { success: false; error: string };
 
 export async function subscribeToVip(
   data: Omit<TablesInsert<"vip_subscriptions">, "status">
-) {
+): Promise<SubscribeResult> {
   const supabase = await createClient();
 
   // Check if already subscribed
@@ -15,6 +20,8 @@ export async function subscribeToVip(
     .eq("creator_id", data.creator_id)
     .eq("fan_phone", data.fan_phone)
     .single();
+
+  const confirmationId = `VIP-${nanoid(6).toUpperCase()}`;
 
   if (existing) {
     // If unsubscribed, resubscribe
@@ -26,12 +33,12 @@ export async function subscribeToVip(
 
       if (error) {
         console.error("Error resubscribing:", error);
-        return { error: error.message };
+        return { success: false, error: error.message };
       }
-      return { success: true, resubscribed: true };
+      return { success: true, confirmationId, resubscribed: true };
     }
     // Already subscribed
-    return { success: true, alreadySubscribed: true };
+    return { success: true, confirmationId, alreadySubscribed: true };
   }
 
   // Create new subscription
@@ -42,10 +49,36 @@ export async function subscribeToVip(
 
   if (error) {
     console.error("Error subscribing to VIP:", error);
-    return { error: error.message };
+    return { success: false, error: error.message };
   }
 
-  return { success: true };
+  return { success: true, confirmationId };
+}
+
+/**
+ * Get VIP subscription with creator details
+ */
+export async function getVipSubscription(creatorId: string, fanPhone: string) {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("vip_subscriptions")
+    .select(`
+      *,
+      creator:creators(*)
+    `)
+    .eq("creator_id", creatorId)
+    .eq("fan_phone", fanPhone)
+    .eq("status", "ACTIVE")
+    .single();
+
+  if (error || !data) {
+    return null;
+  }
+
+  return data as Tables<"vip_subscriptions"> & {
+    creator: Tables<"creators">;
+  };
 }
 
 export async function unsubscribeFromVip(creatorId: string, fanPhone: string) {

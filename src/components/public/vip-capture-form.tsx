@@ -1,16 +1,19 @@
 "use client";
 
 import * as React from "react";
+import { useRouter } from "next/navigation";
 import { CheckCircle2, Loader2, AlertCircle, Send, MessageCircle, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PhoneInput, validateEthiopianPhone } from "@/components/shared/phone-input";
 import { cn } from "@/lib/utils";
+import { subscribeToVip } from "@/lib/actions/vip";
 import type { VIPChannel } from "@/types";
 
 interface VipCaptureFormProps {
   creatorName: string;
-  creatorId?: string;
+  creatorId: string;
+  creatorSlug: string;
   dropId?: string;
   source?: "DROP_PAGE" | "CREATOR_PROFILE" | "DIRECT_LINK";
   onSuccess?: () => void;
@@ -30,16 +33,14 @@ const channels: { value: VIPChannel; label: string; icon: React.ElementType }[] 
  */
 export function VipCaptureForm({
   creatorName,
-  creatorId: _creatorId,
-  dropId: _dropId,
-  source: _source = "DROP_PAGE",
+  creatorId,
+  creatorSlug,
+  dropId,
+  source = "DROP_PAGE",
   onSuccess,
   className,
 }: VipCaptureFormProps) {
-  void _creatorId;
-  void _dropId;
-  void _source;
-
+  const router = useRouter();
   const [phone, setPhone] = React.useState("");
   const [name, setName] = React.useState("");
   const [channel, setChannel] = React.useState<VIPChannel>("TELEGRAM");
@@ -63,10 +64,26 @@ export function VipCaptureForm({
     setErrorMessage("");
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const result = await subscribeToVip({
+        creator_id: creatorId,
+        fan_phone: phone,
+        fan_name: name || null,
+        channel,
+        source,
+        source_ref: dropId || null,
+      });
+
+      if (!result.success) {
+        setStatus("error");
+        setErrorMessage(result.error);
+        return;
+      }
+
       setStatus("success");
       onSuccess?.();
+
+      // Redirect to VIP success page
+      router.push(`/c/${creatorSlug}/vip-success?phone=${encodeURIComponent(phone)}&channel=${channel}`);
     } catch (error) {
       setStatus("error");
       setErrorMessage(

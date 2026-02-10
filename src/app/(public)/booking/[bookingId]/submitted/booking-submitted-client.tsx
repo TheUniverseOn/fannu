@@ -216,6 +216,7 @@ export function BookingSubmittedClient({ booking, creator }: BookingSubmittedCli
               <VipCaptureForm
                 creatorName={creator.display_name}
                 creatorId={creator.id}
+                creatorSlug={creator.slug}
                 source="DIRECT_LINK"
               />
             </div>
