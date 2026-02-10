@@ -66,9 +66,17 @@ function DropActions({ drop }: DropActionsProps) {
   if (drop.status === "LIVE") {
     return (
       <div className="space-y-3 px-6 py-2 md:px-8">
-        <Button className="w-full" size="lg">
-          {isFree ? "Get It Free" : `Buy Now — ${formatETB(drop.price!)}`}
-        </Button>
+        {isFree ? (
+          <Button className="w-full" size="lg">
+            Get It Free
+          </Button>
+        ) : (
+          <Link href={`/d/${drop.slug}/checkout`}>
+            <Button className="w-full" size="lg">
+              Buy Now — {formatETB(drop.price!)}
+            </Button>
+          </Link>
+        )}
         <Button variant="outline" className="w-full" size="lg">
           Join VIP
         </Button>
