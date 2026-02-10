@@ -38,11 +38,13 @@ function BalanceCard({
   pendingBalance,
   totalEarned,
   onWithdraw,
+  isLoading,
 }: {
   availableBalance: number;
   pendingBalance: number;
   totalEarned: number;
   onWithdraw: () => void;
+  isLoading?: boolean;
 }) {
   return (
     <div className="rounded-2xl bg-gradient-to-br from-primary via-primary to-pink-500 p-6 text-white">
@@ -55,10 +57,11 @@ function BalanceCard({
       </p>
       <Button
         onClick={onWithdraw}
+        disabled={isLoading}
         className="mt-4 w-full bg-white text-primary hover:bg-white/90 font-bold"
       >
         <Wallet className="mr-2 h-4 w-4" />
-        Withdraw
+        {isLoading ? "Processing..." : "Withdraw"}
       </Button>
     </div>
   );
@@ -267,6 +270,7 @@ export function EarningsClient({ earningsData, transactions }: EarningsClientPro
         pendingBalance={earningsData.pendingBalance}
         totalEarned={earningsData.totalEarned}
         onWithdraw={handleWithdraw}
+        isLoading={withdrawing}
       />
 
       {/* Metrics Grid */}

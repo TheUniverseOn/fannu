@@ -10,8 +10,6 @@ import {
   Users,
   ImagePlus,
   X,
-  Clock,
-  Calendar,
   Check,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -74,7 +72,11 @@ function ChannelCheckbox({
   onChange: (checked: boolean) => void;
 }) {
   return (
-    <label className="flex items-center gap-2 cursor-pointer">
+    <button
+      type="button"
+      onClick={() => onChange(!checked)}
+      className="flex items-center gap-2 cursor-pointer"
+    >
       <div
         className={cn(
           "h-5 w-5 rounded-md border-2 flex items-center justify-center transition-colors",
@@ -86,7 +88,7 @@ function ChannelCheckbox({
         {checked && <Check className="h-3 w-3 text-white" />}
       </div>
       <span className="text-sm text-foreground">{icon} {label}</span>
-    </label>
+    </button>
   );
 }
 

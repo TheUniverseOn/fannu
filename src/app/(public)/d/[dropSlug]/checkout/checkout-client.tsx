@@ -10,7 +10,6 @@ import {
   Plus,
   Lock,
   Calendar,
-  MapPin,
   Check,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";

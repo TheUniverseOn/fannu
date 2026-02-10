@@ -4,10 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import {
   Send,
-  Clock,
-  FileText,
   MessageSquare,
-  ChevronRight,
   MoreVertical,
   Trash2,
   XCircle,

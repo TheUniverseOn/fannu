@@ -24,7 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { cn, formatETB } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import type { VipSubscription, VipStats } from "@/lib/queries/vip";
 
 // Types
