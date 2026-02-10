@@ -130,7 +130,7 @@ export function DropHeader({ drop }: DropHeaderProps) {
   const isSoldOut = drop.total_slots !== null && drop.slots_remaining === 0;
   const hasSlots = drop.total_slots !== null;
   const slotsRemaining = drop.slots_remaining ?? 0;
-  const isFree = drop.price === 0;
+  const isFree = !drop.price || drop.price === 0;
 
   return (
     <div className="space-y-3 px-6 py-4">
@@ -184,7 +184,7 @@ export function DropHeader({ drop }: DropHeaderProps) {
       {/* Price & Slots Row */}
       <div className="flex items-center justify-between">
         <span className="font-display text-[28px] font-extrabold text-foreground">
-          {isFree ? "Free" : `ETB ${(drop.price / 100).toLocaleString()}`}
+          {isFree ? "Free" : `ETB ${((drop.price ?? 0) / 100).toLocaleString()}`}
         </span>
         {hasSlots && !isSoldOut && slotsRemaining > 0 && (
           <span className="text-callout font-semibold text-warning">

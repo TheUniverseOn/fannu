@@ -17,16 +17,9 @@ import {
 } from "@/components/ui/select";
 import { PhoneInput, validateEthiopianPhone } from "@/components/shared/phone-input";
 import { Loader2, Upload, X, AlertCircle } from "lucide-react";
+import { createBookingRequest } from "@/lib/actions/bookings";
 
 // Types
-interface Creator {
-  id: string;
-  name: string;
-  slug: string;
-  avatarUrl: string;
-  acceptingBookings: boolean;
-}
-
 interface FormData {
   name: string;
   phone: string;
@@ -57,28 +50,36 @@ interface FormErrors {
 }
 
 interface BookingRequestFormProps {
-  creator: Creator;
+  creatorId: string;
+  creatorSlug: string;
+  creatorName: string;
+  acceptingBookings: boolean;
 }
 
 const BOOKING_TYPES = [
-  { value: "live_performance", label: "Live Performance" },
-  { value: "mc_hosting", label: "MC/Hosting" },
-  { value: "brand_content", label: "Brand Content" },
-  { value: "custom", label: "Custom" },
+  { value: "LIVE_PERFORMANCE", label: "Live Performance" },
+  { value: "MC_HOSTING", label: "MC/Hosting" },
+  { value: "BRAND_CONTENT", label: "Brand Content" },
+  { value: "CUSTOM", label: "Custom" },
 ];
 
 const BUDGET_RANGES = [
-  { value: "under_5000", label: "Under 5,000 ETB" },
-  { value: "5000_15000", label: "5,000 - 15,000 ETB" },
-  { value: "15000_50000", label: "15,000 - 50,000 ETB" },
-  { value: "50000_100000", label: "50,000 - 100,000 ETB" },
-  { value: "over_100000", label: "100,000+ ETB" },
+  { value: "under_5000", label: "Under 5,000 ETB", min: 0, max: 500000 },
+  { value: "5000_15000", label: "5,000 - 15,000 ETB", min: 500000, max: 1500000 },
+  { value: "15000_50000", label: "15,000 - 50,000 ETB", min: 1500000, max: 5000000 },
+  { value: "50000_100000", label: "50,000 - 100,000 ETB", min: 5000000, max: 10000000 },
+  { value: "over_100000", label: "100,000+ ETB", min: 10000000, max: 100000000 },
 ];
 
 const MAX_FILES = 3;
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
-export function BookingRequestForm({ creator }: BookingRequestFormProps) {
+export function BookingRequestForm({
+  creatorId,
+  creatorSlug,
+  creatorName,
+  acceptingBookings,
+}: BookingRequestFormProps) {
   const router = useRouter();
 
   // Form state
@@ -253,20 +254,40 @@ export function BookingRequestForm({ creator }: BookingRequestFormProps) {
     setSubmitError(null);
 
     try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // Parse budget range
+      const budgetRange = BUDGET_RANGES.find((r) => r.value === formData.budgetRange);
+      const budgetMin = budgetRange?.min ?? 0;
+      const budgetMax = budgetRange?.max ?? 0;
 
-      // Generate a mock booking ID
-      const bookingId = `bk_${Date.now().toString(36)}`;
+      // Create start/end datetime (same day event)
+      const startAt = new Date(`${formData.eventDate}T${formData.startTime}`).toISOString();
+      const endAt = new Date(`${formData.eventDate}T${formData.endTime}`).toISOString();
 
-      // In a real app, this would be an API call:
-      // const response = await fetch('/api/bookings', {
-      //   method: 'POST',
-      //   body: JSON.stringify({ ...formData, creatorId: creator.id }),
-      // });
+      const result = await createBookingRequest({
+        creator_id: creatorId,
+        booker_name: formData.name.trim(),
+        booker_phone: formData.phone,
+        booker_email: formData.email || null,
+        type: formData.bookingType as "LIVE_PERFORMANCE" | "MC_HOSTING" | "BRAND_CONTENT" | "CUSTOM",
+        start_at: startAt,
+        end_at: endAt,
+        location_city: formData.city.trim(),
+        location_venue: formData.venueAddress.trim() || null,
+        budget_min: budgetMin,
+        budget_max: budgetMax,
+        notes: formData.description.trim(),
+      });
 
-      // Redirect to success page
-      router.push(`/booking/${bookingId}/submitted`);
+      if (result.error) {
+        setSubmitError(result.error);
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Redirect to success page with the booking ID
+      if (result.data) {
+        router.push(`/booking/${result.data.id}/submitted`);
+      }
     } catch (_error) {
       void _error;
       setSubmitError(
@@ -277,7 +298,7 @@ export function BookingRequestForm({ creator }: BookingRequestFormProps) {
   };
 
   // Not accepting bookings state
-  if (!creator.acceptingBookings) {
+  if (!acceptingBookings) {
     return (
       <div className="flex flex-col items-center justify-center py-16 text-center">
         <div className="rounded-full bg-muted p-4 mb-4">
@@ -287,12 +308,12 @@ export function BookingRequestForm({ creator }: BookingRequestFormProps) {
           Not Accepting Bookings
         </h2>
         <p className="text-muted-foreground mb-6 max-w-md">
-          {creator.name} is not currently accepting new booking requests.
+          {creatorName} is not currently accepting new booking requests.
           Check back later or visit their profile for updates.
         </p>
         <Button
           variant="outline"
-          onClick={() => router.push(`/c/${creator.slug}`)}
+          onClick={() => router.push(`/c/${creatorSlug}`)}
         >
           View Profile
         </Button>

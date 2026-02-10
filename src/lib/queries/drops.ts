@@ -60,7 +60,7 @@ export async function getDropsByCreatorId(creatorId: string): Promise<Drop[]> {
     return [];
   }
 
-  return data ?? [];
+  return (data ?? []) as Drop[];
 }
 
 export async function getLiveDropsByCreatorId(creatorId: string): Promise<Drop[]> {
@@ -78,7 +78,7 @@ export async function getLiveDropsByCreatorId(creatorId: string): Promise<Drop[]
     return [];
   }
 
-  return data ?? [];
+  return (data ?? []) as Drop[];
 }
 
 export async function getDropsByCreatorSlug(creatorSlug: string): Promise<Drop[]> {
@@ -99,7 +99,7 @@ export async function getDropsByCreatorSlug(creatorSlug: string): Promise<Drop[]
   const { data, error } = await supabase
     .from("drops")
     .select("*")
-    .eq("creator_id", creator.id)
+    .eq("creator_id", (creator as { id: string }).id)
     .in("status", ["LIVE", "SCHEDULED"])
     .order("created_at", { ascending: false });
 
@@ -108,7 +108,7 @@ export async function getDropsByCreatorSlug(creatorSlug: string): Promise<Drop[]
     return [];
   }
 
-  return data ?? [];
+  return (data ?? []) as Drop[];
 }
 
 export type DropStats = {

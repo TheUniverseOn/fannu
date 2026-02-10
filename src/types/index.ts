@@ -104,7 +104,7 @@ export interface Creator {
   avatar_url: string | null;
   cover_url: string | null;
   phone: string;
-  email: string;
+  email: string | null;
   booking_enabled: boolean;
   booking_approved: boolean;
   default_deposit_percent: number;
@@ -130,7 +130,7 @@ export interface Drop {
   status: DropStatus;
   scheduled_at: string | null;
   ends_at: string | null;
-  price: number;
+  price: number | null;
   currency: string;
   total_slots: number | null;
   slots_remaining: number | null;

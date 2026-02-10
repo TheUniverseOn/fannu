@@ -263,7 +263,7 @@ export default function DropDetailPage() {
       <div className="flex flex-col items-center justify-center py-20">
         <Sparkles className="h-12 w-12 text-muted-foreground mb-4" />
         <h2 className="text-xl font-semibold text-foreground">Drop not found</h2>
-        <p className="text-muted-foreground mt-1">This drop doesn't exist or has been deleted.</p>
+        <p className="text-muted-foreground mt-1">This drop doesn&apos;t exist or has been deleted.</p>
         <Button className="mt-4" onClick={() => router.push("/app/drops")}>
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Drops

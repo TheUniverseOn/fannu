@@ -42,7 +42,7 @@ export async function getCurrentCreator(): Promise<CurrentCreator | null> {
     return null;
   }
 
-  return creator;
+  return creator as CurrentCreator;
 }
 
 export async function requireCreator(): Promise<CurrentCreator> {
@@ -70,7 +70,7 @@ export async function getCreatorOrDemo(): Promise<CurrentCreator | null> {
       .limit(1)
       .single();
 
-    return data;
+    return data as CurrentCreator | null;
   }
 
   return null;

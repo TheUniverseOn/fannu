@@ -10,15 +10,12 @@ import {
   Calendar,
   Bell,
   Link as LinkIcon,
-  Shield,
   Camera,
   Copy,
   Check,
   ExternalLink,
   Mail,
   Phone,
-  Globe,
-  MessageSquare,
   Smartphone,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";

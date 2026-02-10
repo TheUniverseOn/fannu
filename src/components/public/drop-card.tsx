@@ -14,7 +14,7 @@ export interface DropCardData {
   title: string;
   type: string;
   status: "draft" | "scheduled" | "live" | "ended" | "cancelled";
-  price_cents: number;
+  price_cents?: number | null;
   cover_url?: string | null;
   quantity_limit?: number | null;
   quantity_sold?: number;
@@ -85,7 +85,7 @@ export function DropCard({ drop, className }: DropCardProps) {
           {/* Price and availability */}
           <div className="flex items-center justify-between pt-1">
             <span className="font-display text-xl font-extrabold text-foreground">
-              {drop.price_cents === 0 ? "Free" : formatETB(drop.price_cents)}
+              {!drop.price_cents || drop.price_cents === 0 ? "Free" : formatETB(drop.price_cents)}
             </span>
             {drop.quantity_limit && (
               <span className="text-subhead font-medium text-warning">

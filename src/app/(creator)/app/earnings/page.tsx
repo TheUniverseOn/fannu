@@ -3,21 +3,17 @@
 import { useState } from "react";
 import Link from "next/link";
 import {
-  ArrowUpRight,
   ArrowDownLeft,
   Wallet,
-  TrendingUp,
   Receipt,
   ChevronRight,
   Download,
-  Calendar,
-  Filter,
   CheckCircle2,
   Clock,
   Send,
   RefreshCw,
 } from "lucide-react";
-import { cn, formatETB, formatRelativeTime } from "@/lib/utils";
+import { cn, formatETB } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 // ============================================================================
@@ -332,14 +328,10 @@ function EmptyTransactions() {
 
 export default function EarningsPage() {
   const [isLoading] = useState(false);
-  const [withdrawing, setWithdrawing] = useState(false);
-
   const handleWithdraw = async () => {
-    setWithdrawing(true);
     // Simulate API call
     await new Promise((r) => setTimeout(r, 1000));
     alert("Withdrawal feature coming soon!");
-    setWithdrawing(false);
   };
 
   const currentMonth = new Date().toLocaleDateString("en-US", { month: "short", year: "numeric" });

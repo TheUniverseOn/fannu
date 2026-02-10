@@ -78,7 +78,7 @@ export async function getBookingsByCreatorId(
     return [];
   }
 
-  return data ?? [];
+  return (data ?? []) as Booking[];
 }
 
 export async function getPendingBookingsCount(creatorId: string): Promise<number> {

@@ -108,7 +108,7 @@ export default function VerifyOTPPage() {
       const supabase = getSupabaseClient();
       await supabase.auth.signInWithOtp({ phone });
       setResendTimer(60);
-    } catch (err) {
+    } catch {
       setError("Failed to resend code");
     }
   };

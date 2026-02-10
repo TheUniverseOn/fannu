@@ -18,7 +18,7 @@ export async function getCreatorBySlug(slug: string): Promise<Creator | null> {
     return null;
   }
 
-  return data;
+  return data as Creator | null;
 }
 
 export async function getCreatorById(id: string): Promise<Creator | null> {
@@ -35,7 +35,7 @@ export async function getCreatorById(id: string): Promise<Creator | null> {
     return null;
   }
 
-  return data;
+  return data as Creator | null;
 }
 
 export async function getCreatorByUserId(userId: string): Promise<Creator | null> {
@@ -52,7 +52,7 @@ export async function getCreatorByUserId(userId: string): Promise<Creator | null
     return null;
   }
 
-  return data;
+  return data as Creator | null;
 }
 
 export async function getAllCreators(): Promise<Creator[]> {
@@ -68,5 +68,5 @@ export async function getAllCreators(): Promise<Creator[]> {
     return [];
   }
 
-  return data ?? [];
+  return (data ?? []) as Creator[];
 }

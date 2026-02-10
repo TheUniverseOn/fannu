@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import Link from "next/link";
 import {
   ArrowLeft,
   Calendar,
@@ -12,13 +11,11 @@ import {
   Mail,
   DollarSign,
   User,
-  FileText,
   Send,
   Check,
   X,
   Loader2,
   MessageSquare,
-  Edit,
   ExternalLink,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -293,7 +290,7 @@ export default function BookingDetailPage() {
       <div className="flex flex-col items-center justify-center py-20">
         <Calendar className="h-12 w-12 text-muted-foreground mb-4" />
         <h2 className="text-xl font-semibold text-foreground">Booking not found</h2>
-        <p className="text-muted-foreground mt-1">This booking doesn't exist or has been deleted.</p>
+        <p className="text-muted-foreground mt-1">This booking doesn&apos;t exist or has been deleted.</p>
         <Button className="mt-4" onClick={() => router.push("/app/bookings")}>
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Bookings

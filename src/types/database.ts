@@ -9,7 +9,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
-export type Database = {
+export interface Database {
   public: {
     Tables: {
       creators: {
@@ -70,6 +70,7 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [];
       };
       drops: {
         Row: {
@@ -129,6 +130,14 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: "drops_creator_id_fkey";
+            columns: ["creator_id"];
+            referencedRelation: "creators";
+            referencedColumns: ["id"];
+          }
+        ];
       };
       vip_subscriptions: {
         Row: {
@@ -167,6 +176,14 @@ export type Database = {
           status?: "ACTIVE" | "UNSUBSCRIBED";
           joined_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: "vip_subscriptions_creator_id_fkey";
+            columns: ["creator_id"];
+            referencedRelation: "creators";
+            referencedColumns: ["id"];
+          }
+        ];
       };
       purchases: {
         Row: {
@@ -211,6 +228,14 @@ export type Database = {
           created_at?: string;
           paid_at?: string | null;
         };
+        Relationships: [
+          {
+            foreignKeyName: "purchases_drop_id_fkey";
+            columns: ["drop_id"];
+            referencedRelation: "drops";
+            referencedColumns: ["id"];
+          }
+        ];
       };
       bookings: {
         Row: {
@@ -279,6 +304,14 @@ export type Database = {
           created_at?: string;
           updated_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: "bookings_creator_id_fkey";
+            columns: ["creator_id"];
+            referencedRelation: "creators";
+            referencedColumns: ["id"];
+          }
+        ];
       };
       booking_quotes: {
         Row: {
@@ -320,6 +353,14 @@ export type Database = {
           status?: "ACTIVE" | "EXPIRED" | "SUPERSEDED" | "ACCEPTED" | "DECLINED";
           created_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: "booking_quotes_booking_id_fkey";
+            columns: ["booking_id"];
+            referencedRelation: "bookings";
+            referencedColumns: ["id"];
+          }
+        ];
       };
       booking_payments: {
         Row: {
@@ -361,6 +402,20 @@ export type Database = {
           created_at?: string;
           paid_at?: string | null;
         };
+        Relationships: [
+          {
+            foreignKeyName: "booking_payments_booking_id_fkey";
+            columns: ["booking_id"];
+            referencedRelation: "bookings";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "booking_payments_quote_id_fkey";
+            columns: ["quote_id"];
+            referencedRelation: "booking_quotes";
+            referencedColumns: ["id"];
+          }
+        ];
       };
       booking_event_log: {
         Row: {
@@ -390,6 +445,14 @@ export type Database = {
           metadata?: Json;
           created_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: "booking_event_log_booking_id_fkey";
+            columns: ["booking_id"];
+            referencedRelation: "bookings";
+            referencedColumns: ["id"];
+          }
+        ];
       };
       broadcasts: {
         Row: {
@@ -440,8 +503,24 @@ export type Database = {
           failed_count?: number | null;
           created_at?: string;
         };
+        Relationships: [
+          {
+            foreignKeyName: "broadcasts_creator_id_fkey";
+            columns: ["creator_id"];
+            referencedRelation: "creators";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "broadcasts_drop_id_fkey";
+            columns: ["drop_id"];
+            referencedRelation: "drops";
+            referencedColumns: ["id"];
+          }
+        ];
       };
     };
+    Views: Record<string, never>;
+    Functions: Record<string, never>;
     Enums: {
       creator_status: "PENDING_APPROVAL" | "ACTIVE" | "SUSPENDED";
       drop_type: "EVENT" | "MERCH" | "CONTENT" | "CUSTOM";
@@ -458,8 +537,9 @@ export type Database = {
       broadcast_segment: "ALL" | "VIP_ONLY" | "PURCHASERS";
       broadcast_status: "DRAFT" | "SCHEDULED" | "SENDING" | "SENT" | "FAILED";
     };
+    CompositeTypes: Record<string, never>;
   };
-};
+}
 
 // Helper types
 export type Tables<T extends keyof Database["public"]["Tables"]> =

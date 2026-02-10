@@ -20,16 +20,18 @@ export async function getDashboardData(creatorId: string): Promise<DashboardData
   const supabase = await createClient();
 
   // Get creator
-  const { data: creator, error } = await supabase
+  const { data: creatorData, error } = await supabase
     .from("creators")
     .select("*")
     .eq("id", creatorId)
     .single();
 
-  if (error || !creator) {
+  if (error || !creatorData) {
     console.error("Error fetching creator:", error);
     return null;
   }
+
+  const creator = creatorData as Tables<"creators">;
 
   // Fetch all stats in parallel
   const [

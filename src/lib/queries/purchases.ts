@@ -40,7 +40,7 @@ export async function getPurchasesByDropId(dropId: string): Promise<Purchase[]> 
     return [];
   }
 
-  return data ?? [];
+  return (data ?? []) as Purchase[];
 }
 
 export async function getRecentPurchasesByCreatorId(

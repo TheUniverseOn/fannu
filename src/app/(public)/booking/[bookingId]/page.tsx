@@ -453,7 +453,7 @@ export default function QuotePage() {
   };
 
   // Handle decline
-  const handleDecline = async (reason: string) => {
+  const handleDecline = async () => {
     setDecliningQuote(true);
     await new Promise((r) => setTimeout(r, 1500));
     // In real app, call API to decline

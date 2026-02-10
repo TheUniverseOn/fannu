@@ -18,7 +18,7 @@ export async function getVipsByCreatorId(creatorId: string): Promise<VipSubscrip
     return [];
   }
 
-  return data ?? [];
+  return (data ?? []) as VipSubscription[];
 }
 
 export async function getVipCount(creatorId: string): Promise<number> {
@@ -54,7 +54,7 @@ export async function getRecentVips(creatorId: string, limit = 10): Promise<VipS
     return [];
   }
 
-  return data ?? [];
+  return (data ?? []) as VipSubscription[];
 }
 
 export type VipStats = {
