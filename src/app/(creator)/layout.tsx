@@ -12,6 +12,7 @@ import {
   Users,
   DollarSign,
   Wallet,
+  Send,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -19,6 +20,7 @@ const navigation = [
   { name: "Home", href: "/app/dashboard", icon: LayoutDashboard },
   { name: "Drops", href: "/app/drops", icon: Sparkles },
   { name: "Bookings", href: "/app/bookings", icon: Calendar },
+  { name: "Broadcasts", href: "/app/broadcasts", icon: Send },
   { name: "Earnings", href: "/app/earnings", icon: Wallet },
   { name: "Profile", href: "/app/settings", icon: User },
 ];

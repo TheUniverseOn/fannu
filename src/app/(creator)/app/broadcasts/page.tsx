@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "@/lib/auth";
 import { getCreatorByUserId } from "@/lib/queries/creators";
-import { getCreatorEarnings } from "@/lib/queries/earnings";
-import { EarningsClient } from "./earnings-client";
+import { getBroadcastsByCreatorId } from "@/lib/queries/broadcasts";
+import { BroadcastsClient } from "./broadcasts-client";
 
-export default async function EarningsPage() {
+export default async function BroadcastsPage() {
   const user = await getCurrentUser();
 
   if (!user) {
@@ -17,7 +17,7 @@ export default async function EarningsPage() {
     redirect("/onboarding");
   }
 
-  const { data: earningsData, transactions } = await getCreatorEarnings(creator.id);
+  const broadcasts = await getBroadcastsByCreatorId(creator.id);
 
-  return <EarningsClient earningsData={earningsData} transactions={transactions} />;
+  return <BroadcastsClient broadcasts={broadcasts} />;
 }
