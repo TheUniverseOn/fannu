@@ -336,7 +336,7 @@ export interface Database {
           currency?: string;
           deposit_refundable?: boolean;
           expires_at: string;
-          terms_text: string;
+          terms_text?: string | null;
           status?: "ACTIVE" | "EXPIRED" | "SUPERSEDED" | "ACCEPTED" | "DECLINED";
           created_at?: string;
         };
