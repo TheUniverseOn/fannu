@@ -2,3 +2,4 @@
 export * from "./drops";
 export * from "./bookings";
 export * from "./vip";
+export * from "./auth";
