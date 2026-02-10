@@ -218,13 +218,10 @@ export function QuotePageClient({ booking }: { booking: BookingWithDetails }) {
   const [redirectingToPayment, setRedirectingToPayment] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
 
-  // Handle pay deposit
-  const handlePayDeposit = async () => {
+  // Handle pay deposit - redirect to checkout page
+  const handlePayDeposit = () => {
     setRedirectingToPayment(true);
-    // Simulate redirect delay
-    await new Promise((r) => setTimeout(r, 1500));
-    // In real app, redirect to payment provider
-    router.push(`/r/${booking.id}-receipt`);
+    router.push(`/booking/${booking.id}/checkout`);
   };
 
   // Handle decline
